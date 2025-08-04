@@ -16,7 +16,7 @@ The fastest way to get the application running is with Docker and Docker Compose
 1.  **Clone the repository:**
 
     ```bash
-    git clone <your-repo-url>
+    git clone git remote add origin git@github.com:Adarsh-Roy/cd_prediction.git
     cd cd_prediction
     ```
 
@@ -41,5 +41,10 @@ The fastest way to get the application running is with Docker and Docker Compose
 This repository is a monorepo containing both the Streamlit application and the complete code for model training and experimentation.
 
 If you are interested in the details of the data preprocessing, model architecture, or training process, please refer to the detailed documentation in the `training` directory:
+The model file present in this repository is obtained by training on DriveAer++ dataset with around 8000 car point clouds.
+
+## Todo
+- [ ] Support points cloud uploads in any orientation. The current implementation only handles point clouds in standard orientation, that is, the rear end to the front end of the car is along the positive x axis.
+- [ ] Support standard cad model file formats, like .stl.
 
 **[→ Go to Training Documentation](./training/README.md)**

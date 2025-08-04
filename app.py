@@ -17,9 +17,9 @@ from src.utils.io import load_scaler
 st.set_page_config(layout="wide")
 
 st.title("Drag Coefficient Prediction")
-st.markdown("🐙 [View on GitHub](https://github.com/your-username/your-repo)")
-
+st.markdown("[View on GitHub](https://github.com/Adarsh-Roy/cd_prediction)")
 st.info("Currently using the **PLM** model.")
+
 
 # --- Model Loading ---
 @st.cache_resource
@@ -33,7 +33,9 @@ def load_model_and_scaler():
     model.eval()
     return model, scaler, device
 
+
 model, scaler, device = load_model_and_scaler()
+
 
 # --- Prediction Logic ---
 def run_prediction(file_path):
@@ -45,6 +47,7 @@ def run_prediction(file_path):
         st.metric(label="Predicted Drag Coefficient (Cd)", value=f"{cd_value:.5f}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
+
 
 # --- UI ---
 
@@ -77,6 +80,7 @@ if uploaded_file is not None:
     ) as tmp:
         shutil.copyfileobj(uploaded_file, tmp)
         tmp_path = Path(tmp.name)
-    
+
     run_prediction(tmp_path)
     tmp_path.unlink()
+

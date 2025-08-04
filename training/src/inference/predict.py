@@ -33,13 +33,61 @@ from src.data.slices import (
 )
 from src.models.model import get_model
 from src.utils.helpers import prepare_device
-from src.utils.io import load_config, load_scaler
+from src.utils.io import load_config, load_scaler, load_point_cloud
 from src.utils.logger import logger
 
 
 # --------------------------------------------------------------------------- #
 # Public API                                                                  #
 # --------------------------------------------------------------------------- #
+from src.data.dataset import load_point_cloud
+
+
+@torch.inference_mode()
+def predict_for_app(
+    *,
+    model: torch.nn.Module,
+    scaler: object,
+    device: torch.device,
+    point_cloud_path: Path,
+    num_slices: int = DEFAULT_NUM_SLICES,
+    axis: str = DEFAULT_SLICE_AXIS,
+    target_points: int = DEFAULT_TARGET_POINTS,
+) -> float:
+    """
+    Run inference on a single point-cloud file using a pre-loaded model.
+    """
+    slicer = PointCloudSlicer(
+        input_dir=Path("."),  # dummy
+        output_dir=Path("."),  # dummy
+        num_slices=num_slices,
+        axis=axis,
+        max_files=None,
+        split="predict",
+        subset_dir=SUBSET_DIR,
+    )
+
+    slices = slicer.process_file(Path(point_cloud_path))
+    
+    model_type = "plm" # hardcoded for now
+    padded: bool = model_to_padded[model_type]
+    if padded:
+        slices_padded, point_mask = pad_and_mask_slices(slices, target_points)
+        slices_t = torch.from_numpy(slices_padded).unsqueeze(0).float().to(device)
+        p_mask_t = torch.from_numpy(point_mask).unsqueeze(0).float().to(device)
+        model_input = (slices_t, p_mask_t)
+    else:
+        batches: List[Batch] = []
+        for sl in slices:
+            data = Data(x=torch.from_numpy(sl.astype(np.float32)))
+            batches.append(Batch.from_data_list([data]).to(device))
+        model_input = batches
+
+    pred_scaled: float = float(model(model_input).squeeze().cpu())
+    cd_unscaled = float(scaler.inverse_transform(np.array([[pred_scaled]]))[0, 0])
+    return cd_unscaled
+
+
 @torch.inference_mode()
 def predict(
     *,

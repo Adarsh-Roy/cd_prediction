@@ -3,12 +3,14 @@ import torch
 from pathlib import Path
 import tempfile
 import shutil
+import sys
 
-from app_utils import (
-    Cd_PLM_Model,
-    predict_cd,
-    load_scaler,
-)
+# Add the training src directory to the python path
+sys.path.append("training/src")
+
+from models.model import get_model
+from inference.predict import predict_for_app
+from utils.io import load_scaler
 
 # --- Streamlit App ---
 
@@ -16,6 +18,7 @@ st.set_page_config(layout="wide")
 
 st.title("Drag Coefficient Prediction")
 
+st.info("Currently using the **plm** model.")
 
 # --- Model Loading ---
 @st.cache_resource
@@ -24,7 +27,7 @@ def load_model_and_scaler():
     MODEL_PATH = Path("models/cd_plm_model.pt")
     device = torch.device("cpu")
     scaler = load_scaler(SCALER_PATH)
-    model = Cd_PLM_Model()
+    model = get_model(model_type="plm")
     model.load_state_dict(torch.load(MODEL_PATH, map_location=device))
     model.eval()
     return model, scaler, device
@@ -46,11 +49,11 @@ if uploaded_file is not None:
 
     try:
         st.write("File uploaded successfully. Processing...")
-        cd_value = predict_cd(
-            point_cloud_path=tmp_path,
+        cd_value = predict_for_app(
             model=model,
             scaler=scaler,
             device=device,
+            point_cloud_path=tmp_path
         )
         st.metric(label="Predicted Drag Coefficient (Cd)", value=f"{cd_value:.5f}")
     except Exception as e:

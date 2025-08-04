@@ -6,11 +6,11 @@ import shutil
 import sys
 
 # Add the training src directory to the python path
-sys.path.append("training/src")
+sys.path.append("training")
 
-from models.model import get_model
-from inference.predict import predict_for_app
-from utils.io import load_scaler
+from src.models.model import get_model
+from src.inference.predict import predict_for_app
+from src.utils.io import load_scaler
 
 # --- Streamlit App ---
 
@@ -19,6 +19,7 @@ st.set_page_config(layout="wide")
 st.title("Drag Coefficient Prediction")
 
 st.info("Currently using the **plm** model.")
+
 
 # --- Model Loading ---
 @st.cache_resource
@@ -50,10 +51,7 @@ if uploaded_file is not None:
     try:
         st.write("File uploaded successfully. Processing...")
         cd_value = predict_for_app(
-            model=model,
-            scaler=scaler,
-            device=device,
-            point_cloud_path=tmp_path
+            model=model, scaler=scaler, device=device, point_cloud_path=tmp_path
         )
         st.metric(label="Predicted Drag Coefficient (Cd)", value=f"{cd_value:.5f}")
     except Exception as e:

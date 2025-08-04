@@ -20,17 +20,17 @@ The goal of this project is to predict the drag coefficient (Cd) of a vehicle ba
     cd training
     ```
 
-2.  **Create and activate a virtual environment:**
+2.  **Create and activate a virtual environment (with any virtual environment manager of your choice, I recommend `uv`):**
 
     ```bash
-    python3 -m venv .venv
+    uv venv .venv --python==3.11
     source .venv/bin/activate
     ```
 
 3.  **Install the required dependencies:**
 
     ```bash
-    pip install -r requirements.txt
+    uv pip install -r requirements.txt
     ```
 
 ## Usage
@@ -102,5 +102,5 @@ python -m src.main evaluate --config <path/to/config.yaml> --checkpoint <path/to
 To run inference on a single point cloud, you need the configuration file, a checkpoint, and the path to the point cloud file.
 
 ```bash
-python -m src.main predict --config <path/to/config.yaml> --checkpoint <path/to/checkpoint.pt> --point-cloud <path/to/point_cloud.paddle_tensor>
+python -m src.main predict --config <path/to/config.yaml> --checkpoint <path/to/checkpoint.pt> --point-cloud <path/to/point_cloud.[paddle_tensor,pcd]>
 ```

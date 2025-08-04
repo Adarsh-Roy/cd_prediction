@@ -18,7 +18,7 @@ st.set_page_config(layout="wide")
 
 st.title("Drag Coefficient Prediction")
 
-st.info("Currently using the **plm** model.")
+st.info("Currently using the **PLM** model.")
 
 
 # --- Model Loading ---

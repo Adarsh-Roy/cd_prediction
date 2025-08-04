@@ -31,6 +31,7 @@ from src.utils.logger import logger
 def ragged_collate_fn(batch: list[tuple[np.ndarray, torch.Tensor]]):
     """
     Collate function for *non-padded* CdDataset samples.
+    This is required for the other models (planned for later) which will support non-padded slices.
 
     Each item in `batch` is:
         x = (slices_obj_array,)   # shape (num_slices,), slices_obj_array[i] -> (N_i, 2)

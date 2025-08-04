@@ -13,6 +13,8 @@ def get_model(
 
     - "plm" → PointNet + LSTM + MLP
 
+    Other model architectures will be added later.
+
     Returns:
         nn.Module
     """

@@ -15,7 +15,6 @@ The fastest way to get the application running is with Docker and Docker Compose
 ### Prerequisites
 
 *   [Docker](https://docs.docker.com/get-docker/)
-*   [Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Instructions
 
@@ -29,7 +28,7 @@ The fastest way to get the application running is with Docker and Docker Compose
 2.  **Build and run the container:**
 
     ```bash
-    docker-compose up --build
+    docker build -t cd-prediction-app . && docker run -p 8501:8501 cd-prediction-app
     ```
 
 3.  **Open the application:**

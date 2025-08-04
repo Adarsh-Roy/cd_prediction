@@ -17,7 +17,7 @@ from src.utils.io import load_scaler
 st.set_page_config(layout="wide")
 
 st.title("Drag Coefficient Prediction")
-st.markdown("[View on GitHub](https://github.com/Adarsh-Roy/cd_prediction)")
+st.link_button("View on GitHub", "https://github.com/Adarsh-Roy/cd_prediction")
 st.info("Currently using the **PLM** model.")
 
 
@@ -83,4 +83,3 @@ if uploaded_file is not None:
 
     run_prediction(tmp_path)
     tmp_path.unlink()
-

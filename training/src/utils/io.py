@@ -25,9 +25,15 @@ def load_point_cloud(file_path: Path) -> np.ndarray:
         A numpy array of shape (N, 3) where N is the number of points in the point cloud.
     """
     import paddle
+    import numpy as np
 
-    tensor = paddle.load(str(file_path))
-    return tensor.numpy()
+    obj = paddle.load(str(file_path))
+    if isinstance(obj, np.ndarray):
+        return obj
+    if hasattr(obj, 'numpy'):
+        return obj.numpy()
+    # If it's a paddle tensor but doesn't have .numpy(), convert it manually
+    return np.array(obj)
 
 
 def load_design_ids(split: str, subset_dir: Path = SUBSET_DIR) -> set[str]:

@@ -2,7 +2,7 @@
 
 This project is a web application that predicts the drag coefficient (Cd) of a vehicle based on its 3D point cloud data. The application is built with Streamlit and served using Docker.
 
-## 📄 Research Paper
+## Research Paper
 
 The models and methods used in this project are based on the following research paper. The paper provides a detailed explanation of the data processing, model architecture, and experimental results.
 

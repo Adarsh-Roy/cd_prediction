@@ -1,0 +1,57 @@
+[project]
+name = "Cd_project"
+version = "0.1.0"
+description = "A light weight C_d predictor"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+dependencies = [
+  # PyTorch - will use platform-appropriate builds
+  "torch>=2.3.0",
+  "torchvision>=0.18.0",
+  "torchaudio>=2.3.0",
+  # Data handling & ML utilities
+  "numpy<2.0",
+  "pandas>=2.0",
+  "matplotlib>=3.7",
+  "seaborn>=0.12",
+  "tqdm>=4.65",
+  "scikit-learn>=1.2",
+  "joblib>=1.2",
+  "paddlepaddle>=3.0.0",
+  "PyYAML>=6.0",
+  # TensorBoard
+  "tensorboard>=2.13",
+  # PyTorch Geometric (core)
+  "torch_geometric>=2.3.0",
+  # PyTorch Ignite for training workflows
+  "pytorch-ignite>=0.5.2",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.2",
+]
+
+# Configure PyTorch sources based on platform
+[tool.uv.sources]
+torch = [
+  { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cu121", marker = "sys_platform == 'win32'" },
+  # macOS uses PyPI (CPU/MPS builds)
+]
+torchvision = [
+  { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cu121", marker = "sys_platform == 'win32'" },
+  # macOS uses PyPI (CPU/MPS builds)
+]
+torchaudio = [
+  { index = "pytorch-cu121", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cu121", marker = "sys_platform == 'win32'" },
+  # macOS uses PyPI (CPU/MPS builds)
+]
+
+# PyTorch CUDA index for Linux/Windows
+[[tool.uv.index]]
+name = "pytorch-cu121"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true

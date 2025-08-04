@@ -1,0 +1,33 @@
+# PyTorch with CUDA 12.1
+torch==2.3.0+cu121
+torchvision==0.18.0+cu121
+torchaudio==2.3.0+cu121
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# PyTorch Geometric + Extensions (CUDA 12.1, PyTorch 2.3.0)
+torch-geometric>=2.3.0
+torch-scatter==2.1.2+pt23cu121
+torch-sparse==0.6.18+pt23cu121
+torch-cluster==1.6.3+pt23cu121
+torch-spline-conv==1.2.2+pt23cu121
+--find-links https://data.pyg.org/whl/torch-2.3.0+cu121.html
+
+# Data handling & ML utilities
+numpy<2.0
+pandas>=2.0
+matplotlib>=3.7
+seaborn>=0.12
+tqdm>=4.65
+scikit-learn>=1.2
+joblib>=1.2
+paddlepaddle>=3.0.0
+PyYAML>=6.0
+
+# TensorBoard
+tensorboard>=2.13
+
+# PyTorch Ignite
+pytorch-ignite>=0.5.2
+
+# Jupyter kernel
+ipykernel>=6.0

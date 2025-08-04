@@ -33,14 +33,8 @@ from src.data.slices import (
 )
 from src.models.model import get_model
 from src.utils.helpers import prepare_device
-from src.utils.io import load_config, load_scaler, load_point_cloud
+from src.utils.io import load_config, load_scaler
 from src.utils.logger import logger
-
-
-# --------------------------------------------------------------------------- #
-# Public API                                                                  #
-# --------------------------------------------------------------------------- #
-from src.data.dataset import load_point_cloud
 
 
 @torch.inference_mode()
@@ -68,8 +62,8 @@ def predict_for_app(
     )
 
     slices = slicer.process_file(Path(point_cloud_path))
-    
-    model_type = "plm" # hardcoded for now
+
+    model_type = "plm"  # hardcoded for now
     padded: bool = model_to_padded[model_type]
     if padded:
         slices_padded, point_mask = pad_and_mask_slices(slices, target_points)

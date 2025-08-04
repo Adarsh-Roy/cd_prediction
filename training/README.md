@@ -12,6 +12,12 @@ The goal of this project is to predict the drag coefficient (Cd) of a vehicle ba
 4.  **Evaluation:** Evaluating the trained model on a test set.
 5.  **Inference:** Using a trained model to predict the Cd for a new, unseen point cloud.
 
+### Data Requirements for Training
+
+For training the models, the system expects raw 3D point cloud files (e.g., `.pcd` or `.paddle_tensor` format) to be placed in the `training/data/raw/PointClouds/` directory. The `slice` command (detailed below) will process these files.
+
+Additionally, the `clean_drag_coefficients.csv` file is required to provide the labels (truth values) for the drag coefficients (Cd) corresponding to the point cloud data. A sample `clean_drag_coefficients.csv` is provided in the `training/data/raw/` directory. This sample file contains the drag coefficients for the DrivAerNet++ dataset and serves as an example of the expected format.
+
 ## Environment Setup
 
 1.  **Navigate to the training directory:**

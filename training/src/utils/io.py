@@ -19,21 +19,34 @@ if TYPE_CHECKING:
 
 def load_point_cloud(file_path: Path) -> np.ndarray:
     """
+    Load either a Paddle-saved tensor (.paddle_tensor) or a .pcd file.
+
     Args:
-        file_path: Path to the .paddle_tensor file.
+        file_path: Path to the .paddle_tensor or .pcd file.
     Returns:
-        A numpy array of shape (N, 3) where N is the number of points in the point cloud.
+        A numpy array of shape (N, 3) where N is the number of points.
     """
     import paddle
     import numpy as np
+    from pypcd import pypcd
 
-    obj = paddle.load(str(file_path))
-    if isinstance(obj, np.ndarray):
-        return obj
-    if hasattr(obj, 'numpy'):
-        return obj.numpy()
-    # If it's a paddle tensor but doesn't have .numpy(), convert it manually
-    return np.array(obj)
+    ext = file_path.suffix.lower()
+
+    if ext == ".paddle_tensor":
+        obj = paddle.load(str(file_path))
+        if isinstance(obj, np.ndarray):
+            return obj.astype(np.float32)
+        if hasattr(obj, 'numpy'):
+            return obj.numpy().astype(np.float32)
+        return np.array(obj).astype(np.float32)
+
+    if ext == ".pcd":
+        pc = pypcd.PointCloud.from_path(str(file_path))
+        return np.stack(
+            [pc.pc_data["x"], pc.pc_data["y"], pc.pc_data["z"]], axis=-1
+        ).astype(np.float32)
+
+    raise ValueError(f"Unsupported file type: {ext}")
 
 
 def load_design_ids(split: str, subset_dir: Path = SUBSET_DIR) -> set[str]:

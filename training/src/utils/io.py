@@ -4,14 +4,10 @@ Utility method for input/output from the disk.
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import joblib
-import paddle
-import pandas as pd
-import yaml
 
 from src.config.constants import DRAG_CSV, SCALER_FILE, SUBSET_DIR
 from src.utils.logger import logger
@@ -28,6 +24,8 @@ def load_point_cloud(file_path: Path) -> np.ndarray:
     Returns:
         A numpy array of shape (N, 3) where N is the number of points in the point cloud.
     """
+    import paddle
+
     tensor = paddle.load(str(file_path))
     return tensor.numpy()
 
@@ -97,6 +95,8 @@ def load_cd_map(csv_path: Path = DRAG_CSV) -> dict[str, float]:
     Returns:
         A dict of the form `{design_id: Cd}`.
     """
+    import pandas as pd
+
     if not csv_path.is_file():
         raise FileNotFoundError(csv_path)
     df = pd.read_csv(csv_path, usecols=["Design", "Average Cd"])
@@ -107,6 +107,9 @@ def load_cd_map(csv_path: Path = DRAG_CSV) -> dict[str, float]:
 
 def load_config(cfg_path: str | Path) -> dict:
     """Load a YAML or JSON experiment-config file."""
+    import yaml
+    import json
+
     cfg_path = Path(cfg_path)
     if not cfg_path.exists():
         raise FileNotFoundError(cfg_path)

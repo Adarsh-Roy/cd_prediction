@@ -6,7 +6,6 @@ Pads the slices to target number of points per slice.
 from pathlib import Path
 from typing import Literal, Optional, Sequence
 
-import matplotlib.pyplot as plt
 import numpy as np
 from tqdm import tqdm
 from tqdm.contrib.logging import logging_redirect_tqdm
@@ -291,6 +290,8 @@ def display_slices(
 
     slices: list of (num_of_points, 2) np arrays
     """
+    import matplotlib.pyplot as plt
+
     if limit:
         slices = slices[:limit]
 

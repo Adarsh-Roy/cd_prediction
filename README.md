@@ -43,6 +43,12 @@ This repository is a monorepo containing both the Streamlit application and the 
 If you are interested in the details of the data preprocessing, model architecture, or training process, please refer to the detailed documentation in the `training` directory:
 The model file present in this repository is obtained by training on DriveAer++ dataset with around 8000 car point clouds.
 
+## Authors
+
+- **Adarsh Roy** - [GitHub](https://github.com/Adarsh-Roy)
+- **Utkarsh Singh** - [GitHub](https://github.com/HSRAKTU)
+- **Absaar Ali** - [GitHub](https://github.com/Absaar1548)
+
 ## Todo
 - [ ] Support points cloud uploads in any orientation. The current implementation only handles point clouds in standard orientation, that is, the rear end to the front end of the car is along the positive x axis.
 - [ ] Support standard cad model file formats, like .stl.

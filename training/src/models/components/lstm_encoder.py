@@ -15,7 +15,7 @@ class LSTMEncoder(nn.Module):
         self.lstm = nn.LSTM(
             input_size=input_dim,
             hidden_size=hidden_dim,
-            num_layers=1,
+            num_layers=2,
             batch_first=True,
             bidirectional=True,
         )
@@ -23,11 +23,16 @@ class LSTMEncoder(nn.Module):
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """
         Args
-            x: (batch_size, num_slices, `self.input_dim`)
+            x: (batch_size, num_slices, input_dim)
 
         Returns
             (batch_size, 2·hidden_dim) — concatenated [fwd, bwd] last hidden states.
         """
-        _, (h_n, _) = self.lstm(x)  # h_n: (2, batch_size, hidden_dim)
-        h_fwd, h_bwd = h_n[-2], h_n[-1]  # (batch_size, hidden_dim) each
-        return torch.cat([h_fwd, h_bwd], dim=-1)
+        _, (hidden_states, _) = self.lstm(
+            x
+        )  # hidden_states: (4, batch_size, hidden_dim)
+        hidden_fwd, hidden_bwd = (
+            hidden_states[-2],
+            hidden_states[-1],
+        )  # (batch_size, hidden_dim) each
+        return torch.cat([hidden_fwd, hidden_bwd], dim=-1)
